@@ -61,38 +61,41 @@ app.get("/", function (req, res) {
     const noteId = JSON.parse(req.params.id)
     console.log(noteId)
     fs.readFile(__dirname + "/db/db.json", 'utf8', function (error, notes) {
+      if (error) {
+        return console.log(error)
+      }
+      notes = JSON.parse(notes)
+  
+      notes = notes.filter(val => val.id !== noteId)
+  
+      fs.writeFile(__dirname + "/db/db.json", JSON.stringify(notes), function (error, data) {
         if (error) {
-            return console.log(error)
+          return error
         }
-        notes = JSON.parse(notes)
-
-        fs.writeFile(__dirname + "/db/db.json", JSON.stringify(notes), function (error, data) {
-            if (error) {
-                return error
-            }
-            res.json(notes)
-        })
+        res.json(notes)
+      })
     })
-})
-
-app.put("api/notes/:id", function(req, res) {
+  })
+  
+  app.put("/api/notes/:id", function(req, res) {
     const noteId = JSON.parse(req.params.id)
     console.log(noteId)
-    fs.readFile(__dirname + "db/db.json", 'utf8', function(error, notes) {
-        if (error){
-            return console.log(error)
+    fs.readFile(__dirname + "db/db.json", "utf8", function(error, notes) {
+      if (error ){
+        return console.log(error)
+      }
+      notes.JSONparse(notes)
+  
+      notes = notes.filter(val => val.id !== noteId)
+  
+      fs.writeFile(__dirname +"db/db.json", JSON.stringify(notes), function (error, data) {
+        if (error) {
+          return error
         }
-        notes.JSONparse(notes)
-        notes = notes.filter(val => val.id !== noteId)
-
-        fs.writeFile(__dirname + "db/db.json", JSON.stringify(notes), function (error, data) {
-            if (error) {
-                return error
-            }
-            res.json(notes)
-        })
+        res.json(notes)
+      })
     })
-})
+  })
 
   // server running
   app.listen(PORT, function () {
