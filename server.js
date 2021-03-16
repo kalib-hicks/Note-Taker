@@ -41,6 +41,26 @@ app.get("/", function (req, res) {
     })
   });
 
+  //delete notes
+  app.delete("/api/notes/:id", function (req, res) {
+      const noteId = JSON.parse(req.params.id)
+      console.log(noteId)
+      fs.readFile(__dirname + "/db/db.json", 'utf8', function (error, notes) {
+          if (error) {
+              return console.log(error)
+          }
+          notes = JSON.parse(notes)
+
+          fs.writeFile(__dirname + "/db/db.json", JSON.stringify(notes), function (error, data) {
+              if (error) {
+                  return error
+              }
+              res.json(notes)
+          })
+      })
+  })
+
+
   // GET route json
   app.get("/api/notes", function (req, res) {
     fs.readFile(__dirname + "/db/db.json", 'utf8', function (error, data) {
