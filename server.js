@@ -39,4 +39,15 @@ app.post("/api/notes", function (req, res) {
             res.json(activeNote);
         })
     })
-});s
+});
+
+//GET routes from json
+app.get("/api/notes", function (req, res) {
+    fs.readFile(__dirname + "/db/db.json", 'utf8', function (error, data) {
+        if (error) {
+            return console.log(error)
+        }
+        console.log("Notes", data)
+        res.json(JSON.parse(data))
+    })
+});
