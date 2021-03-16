@@ -51,3 +51,8 @@ app.get("/api/notes", function (req, res) {
         res.json(JSON.parse(data))
     })
 });
+
+//server
+app.listen(PORT, function () {
+    console.log("Server is running" + PORT);
+});
